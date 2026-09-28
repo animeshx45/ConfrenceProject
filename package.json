@@ -1,0 +1,23 @@
+{
+  "name": "icaicse-2026-conference",
+  "version": "1.0.0",
+  "description": "ICAICSE 2026 — International Conference on AI for Computational Science and Engineering",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'Build complete: Static site ready.'",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "conference",
+    "ai",
+    "computational-science",
+    "nit-srinagar",
+    "icaicse-2026"
+  ],
+  "author": "NIT Srinagar",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

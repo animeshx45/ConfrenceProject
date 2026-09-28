@@ -1,0 +1,3314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ICAICSE 2026 — International Conference on AI for Computational Science and Engineering</title>
+  <meta name="description" content="ICAICSE 2026 is an international multidisciplinary conference uniting artificial intelligence, scientific computing, and engineering. Organized by National Institute of Technology Srinagar.">
+
+  <!-- Fonts: Sora (Headings) & Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM (HSL Custom Properties as specified in Lingua Design System)
+       ========================================================================== */
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 228 52% 22%;       /* Deep confident navy: #1b2654 */
+      --primary: 228 52% 22%;          /* Navy primary */
+      --primary-foreground: 0 0% 100%; /* Pure white */
+      --accent: 45 92% 61%;            /* Warm yellow accent: #fecb3e */
+      --accent-hover: 45 96% 52%;
+      --muted: 220 30% 96%;            /* Soft cool background: #f3f5f9 */
+      --card: 0 0% 100%;
+      --border: 220 15% 88%;           /* Clean border gray */
+      --muted-foreground: 228 20% 50%; /* Refined slate */
+      --shadow-sm: 0 2px 8px -2px rgba(27, 38, 84, 0.06);
+      --shadow-md: 0 12px 28px -6px rgba(27, 38, 84, 0.1);
+      --shadow-lg: 0 20px 40px -10px rgba(27, 38, 84, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Sora', sans-serif;
+      color: hsl(var(--foreground));
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    button {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Signature Ticker Marquee */
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-wrapper {
+      width: 100%;
+      overflow: hidden;
+      background-color: hsl(var(--accent));
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(27, 38, 84, 0.12);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker-scroll 28s linear infinite;
+    }
+
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    .ticker-item {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      color: hsl(var(--foreground));
+      padding-right: 32px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Top banner */
+    .announcement-bar {
+      background-color: hsl(var(--primary));
+      color: white;
+      font-size: 12.5px;
+      font-weight: 500;
+      text-align: center;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .announcement-bar b {
+      color: hsl(var(--accent));
+      font-weight: 700;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background-color: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid hsl(var(--border));
+      transition: box-shadow 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 4px 20px -2px rgba(27, 38, 84, 0.08);
+    }
+
+    .nav-inner {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo svg {
+      width: 28px;
+      height: 28px;
+      color: hsl(var(--accent));
+      fill: hsl(var(--accent));
+    }
+
+    .brand-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: hsl(var(--foreground));
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      background: hsl(var(--accent) / 0.25);
+      color: hsl(var(--foreground));
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      border: 1px solid hsl(var(--accent) / 0.4);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: hsl(var(--foreground));
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background-color: hsl(var(--primary));
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 24px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 14px -3px rgba(27, 38, 84, 0.25);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px -3px rgba(27, 38, 84, 0.35);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: hsl(var(--primary));
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 22px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid hsl(var(--border));
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: hsl(var(--primary));
+      background-color: hsl(var(--muted));
+    }
+
+    .btn-accent {
+      background-color: hsl(var(--accent));
+      color: hsl(var(--foreground));
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 26px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px -3px rgba(254, 203, 62, 0.5);
+      transition: all 0.2s ease;
+    }
+
+    .btn-accent:hover {
+      background-color: hsl(var(--accent-hover));
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px -3px rgba(254, 203, 62, 0.7);
+    }
+
+    .btn-link {
+      font-size: 15px;
+      font-weight: 600;
+      color: hsl(var(--primary));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s ease;
+    }
+
+    .btn-link:hover {
+      text-decoration: underline;
+      gap: 9px;
+    }
+
+    /* Mobile menu hamburger */
+    .hamburger {
+      display: none;
+      background: none;
+      border: 1px solid hsl(var(--border));
+      border-radius: 8px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      color: hsl(var(--foreground));
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu {
+      display: none;
+      background-color: white;
+      border-bottom: 1px solid hsl(var(--border));
+      padding: 20px 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .mobile-menu.open {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 12px 0;
+      font-size: 15px;
+      font-weight: 500;
+      border-bottom: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    /* Hero Section */
+    .hero-section {
+      min-height: 88vh;
+      background-color: white;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 56px;
+      padding-bottom: 72px;
+    }
+
+    /* Background faint typography as per prompt */
+    .hero-bg-text {
+      position: absolute;
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      color: hsl(var(--foreground) / 0.035);
+      user-select: none;
+      pointer-events: none;
+      line-height: 0.9;
+      text-transform: uppercase;
+      z-index: 0;
+    }
+
+    .hero-bg-1 {
+      top: 40px;
+      left: -20px;
+      font-size: clamp(80px, 12vw, 150px);
+    }
+
+    .hero-bg-2 {
+      bottom: 60px;
+      right: -20px;
+      font-size: clamp(70px, 10vw, 130px);
+    }
+
+    .hero-bg-3 {
+      top: 48%;
+      right: 4%;
+      transform: translateY(-50%);
+      font-size: clamp(60px, 8vw, 100px);
+      color: hsl(var(--foreground) / 0.025);
+    }
+
+    .hero-radial {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 35%, hsl(228 52% 22% / 0.05), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .pre-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: hsl(var(--muted-foreground));
+      margin-top: 24px;
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pre-heading::before, .pre-heading::after {
+      content: "";
+      width: 24px;
+      height: 1.5px;
+      background: hsl(var(--accent));
+      display: inline-block;
+    }
+
+    .hero-headline {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: clamp(38px, 6.2vw, 72px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: hsl(var(--foreground));
+      max-width: 980px;
+      margin-bottom: 24px;
+    }
+
+    .hero-headline .highlight {
+      color: hsl(var(--foreground));
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-headline .highlight::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background-color: hsl(var(--accent) / 0.45);
+      z-index: -1;
+      border-radius: 4px;
+    }
+
+    .hero-subtext {
+      font-size: clamp(17px, 1.8vw, 20px);
+      font-weight: 400;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+      max-width: 720px;
+      margin-bottom: 36px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 44px;
+    }
+
+    .hero-social-proof {
+      border-top: 1px solid hsl(var(--border));
+      padding-top: 28px;
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: hsl(var(--muted-foreground));
+      font-size: 13.5px;
+    }
+
+    .proof-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .proof-item svg {
+      width: 16px;
+      height: 16px;
+      color: hsl(var(--accent));
+    }
+
+    /* Key Meta Badges Bar */
+    .meta-bar {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .meta-cell {
+      padding: 24px 20px;
+      border-right: 1px solid hsl(var(--border));
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .meta-cell:last-child {
+      border-right: none;
+    }
+
+    .meta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-val {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: hsl(var(--foreground));
+      line-height: 1.3;
+    }
+
+    .tba-badge {
+      display: inline-block;
+      background: hsl(var(--accent) / 0.25);
+      color: hsl(var(--foreground));
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid hsl(var(--accent) / 0.5);
+    }
+
+    /* Section Base Styles */
+    section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section-muted {
+      background-color: hsl(var(--muted));
+    }
+
+    .section-white {
+      background-color: white;
+    }
+
+    .section-header {
+      margin-bottom: 56px;
+    }
+
+    .section-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: hsl(var(--primary));
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-tag::before {
+      content: "";
+      width: 14px;
+      height: 2.5px;
+      background-color: hsl(var(--accent));
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4.4vw, 52px);
+      letter-spacing: -0.025em;
+      color: hsl(var(--foreground));
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      color: hsl(var(--muted-foreground));
+      max-width: 680px;
+      line-height: 1.6;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: hsl(var(--accent));
+    }
+
+    .stat-number {
+      font-family: 'Sora', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      color: hsl(var(--primary));
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* Objectives Grid */
+    .objectives-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .objective-card {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 32px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .objective-card:hover {
+      border-color: hsl(var(--accent));
+      box-shadow: var(--shadow-md);
+    }
+
+    .obj-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: hsl(var(--accent));
+      background: hsl(var(--foreground));
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .obj-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: hsl(var(--foreground));
+    }
+
+    .obj-desc {
+      font-size: 15px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+    }
+
+    /* Languages Style -> Research Areas Grid */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .area-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 30px;
+      border: 1px solid hsl(var(--border));
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .area-card:hover {
+      border-color: hsl(var(--accent));
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .area-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background-color: hsl(var(--accent));
+      color: hsl(var(--foreground));
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .area-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: hsl(var(--muted));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 26px;
+      border: 1px solid hsl(var(--border));
+    }
+
+    .area-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 6px;
+    }
+
+    .area-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 14px;
+    }
+
+    .area-desc {
+      font-size: 14.5px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .area-link {
+      margin-top: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: hsl(var(--primary));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s ease;
+    }
+
+    .area-card:hover .area-link {
+      gap: 10px;
+      color: hsl(var(--foreground));
+      text-decoration: underline;
+    }
+
+    /* How It Works Steps (Section 4 Style) */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: left;
+    }
+
+    .step-item {
+      position: relative;
+    }
+
+    .step-number {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 64px;
+      line-height: 1;
+      color: hsl(var(--accent) / 0.45);
+      margin-bottom: 16px;
+    }
+
+    .step-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+
+    .step-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+    }
+
+    .step-time {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      background: hsl(var(--accent) / 0.35);
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-top: 18px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Important Dates Section */
+    .dates-container {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-lg);
+      padding: 12px 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: 240px 1.5fr 2fr 48px;
+      align-items: center;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid hsl(var(--border));
+      transition: background-color 0.2s ease, padding-left 0.2s ease;
+    }
+
+    .date-row:last-child {
+      border-bottom: none;
+    }
+
+    .date-row:hover {
+      background-color: hsl(var(--muted) / 0.6);
+      padding-left: 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .date-badge {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: hsl(var(--primary));
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .date-badge svg {
+      color: hsl(var(--accent));
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .date-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+    }
+
+    .date-desc {
+      font-size: 14.5px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* Committee Section (Meet the Teachers Style) */
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .committee-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      border: 1px solid hsl(var(--border));
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .committee-card:hover {
+      border-color: hsl(var(--accent));
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .member-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: var(--radius-full);
+      background: hsl(var(--primary));
+      color: hsl(var(--accent));
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      border: 3px solid hsl(var(--accent));
+      box-shadow: 0 4px 12px rgba(27, 38, 84, 0.12);
+    }
+
+    .member-name {
+      font-size: 19px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 4px;
+    }
+
+    .member-role {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: hsl(var(--primary));
+      background: hsl(var(--accent) / 0.25);
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-bottom: 8px;
+      align-self: flex-start;
+    }
+
+    .member-dept {
+      font-size: 13px;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    .member-quote {
+      font-size: 13.5px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.55;
+      font-style: italic;
+      margin-bottom: 20px;
+      flex-grow: 1;
+      border-left: 2px solid hsl(var(--accent));
+      padding-left: 12px;
+    }
+
+    .member-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      margin-bottom: 18px;
+    }
+
+    .member-tag {
+      background: hsl(var(--muted));
+      font-size: 11px;
+      font-weight: 500;
+      color: hsl(var(--foreground));
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Courses Style -> Conference Formats / Tracks */
+    .formats-list {
+      border-top: 1px solid hsl(var(--border));
+    }
+
+    .format-item {
+      padding: 32px 0;
+      border-bottom: 1px solid hsl(var(--border));
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      transition: background 0.2s ease;
+    }
+
+    .format-left {
+      flex: 1;
+      max-width: 820px;
+    }
+
+    .format-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .format-title {
+      font-size: 23px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+    }
+
+    .format-tag {
+      background: hsl(var(--accent) / 0.3);
+      font-size: 11px;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .format-desc {
+      font-size: 15px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .format-meta {
+      font-size: 13px;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .format-right {
+      text-align: right;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .format-status {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: hsl(var(--primary));
+    }
+
+    /* Pricing Section Style -> Registration Plans */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: left;
+    }
+
+    .plan-card {
+      border-radius: var(--radius-md);
+      padding: 36px 32px;
+      border: 1px solid hsl(var(--border));
+      display: flex;
+      flex-direction: column;
+      background: white;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .plan-card.highlight {
+      background-color: hsl(var(--primary));
+      border-color: hsl(var(--primary));
+      color: white;
+      box-shadow: 0 16px 36px -6px rgba(27, 38, 84, 0.3);
+    }
+
+    .plan-card.highlight h3,
+    .plan-card.highlight .plan-price {
+      color: white;
+    }
+
+    .plan-tag {
+      align-self: flex-start;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-bottom: 16px;
+    }
+
+    .plan-card:not(.highlight) .plan-tag {
+      background: hsl(var(--accent) / 0.3);
+      color: hsl(var(--foreground));
+    }
+
+    .plan-card.highlight .plan-tag {
+      background: hsl(var(--accent));
+      color: hsl(var(--foreground));
+    }
+
+    .plan-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .plan-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .plan-price {
+      font-family: 'Sora', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      color: hsl(var(--primary));
+      line-height: 1;
+    }
+
+    .plan-period {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .plan-card.highlight .plan-period {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .plan-desc {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.55;
+      margin-bottom: 24px;
+    }
+
+    .plan-card.highlight .plan-desc {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .plan-card.highlight .plan-features li {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .plan-features li svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .plan-card:not(.highlight) .plan-features li svg {
+      color: hsl(var(--primary));
+    }
+
+    .plan-card.highlight .plan-features li svg {
+      color: hsl(var(--accent));
+    }
+
+    /* Review Criteria Section */
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .criterion-card {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .criterion-card:hover {
+      border-color: hsl(var(--accent));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .crit-idx {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: hsl(var(--primary));
+      background: hsl(var(--muted));
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .crit-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 4px;
+    }
+
+    .crit-desc {
+      font-size: 13.5px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.5;
+    }
+
+    .cats-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .cat-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid hsl(var(--border));
+      background: white;
+      color: hsl(var(--foreground));
+      transition: all 0.2s ease;
+    }
+
+    .cat-pill:hover {
+      border-color: hsl(var(--accent));
+      background: hsl(var(--accent) / 0.15);
+    }
+
+    /* FAQ Section (Accordion Style) */
+    .faq-container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .accordion-item {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .accordion-item:hover {
+      border-color: hsl(var(--accent));
+    }
+
+    .accordion-item.active {
+      border-color: hsl(var(--primary));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      text-align: left;
+      padding: 22px 28px;
+      background: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .accordion-question {
+      font-family: 'Sora', sans-serif;
+      font-size: 17.5px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+    }
+
+    .accordion-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-full);
+      background: hsl(var(--muted));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+      background: hsl(var(--accent));
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+      padding: 0 28px;
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 500px;
+      transition: max-height 0.35s ease-in-out;
+      padding-bottom: 24px;
+    }
+
+    .accordion-answer {
+      font-size: 15px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.65;
+    }
+
+    /* Sponsors Section Styles */
+    .sponsors-lead-card {
+      background: white;
+      border: 1.5px solid hsl(var(--border));
+      border-radius: var(--radius-lg);
+      padding: 44px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 36px;
+      transition: all 0.3s ease;
+    }
+
+    .sponsors-lead-card:hover {
+      border-color: hsl(var(--accent));
+      box-shadow: var(--shadow-lg);
+    }
+
+    .sponsors-lead-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #003876 0%, #ea2830 35%, #008a3c 70%, hsl(var(--accent)) 100%);
+    }
+
+    .lead-sponsor-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .sponsor-logo-box {
+      background: hsl(var(--muted) / 0.5);
+      border: 1.5px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .sponsor-logo-box:hover {
+      background: white;
+      border-color: hsl(var(--accent));
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sponsor-bank-tag {
+      margin-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: hsl(var(--primary));
+      background: hsl(var(--accent) / 0.25);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid hsl(var(--accent) / 0.5);
+    }
+
+    .sponsor-badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: hsl(var(--accent));
+      color: hsl(var(--foreground));
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-bottom: 12px;
+    }
+
+    .sponsor-title {
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 800;
+      color: hsl(var(--foreground));
+      margin-bottom: 4px;
+    }
+
+    .sponsor-subtitle {
+      font-size: 15px;
+      font-weight: 600;
+      color: hsl(var(--primary));
+      margin-bottom: 16px;
+    }
+
+    .sponsor-desc {
+      font-size: 14.5px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .sponsor-perks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .sponsor-perk {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+      background: hsl(var(--muted));
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid hsl(var(--border) / 0.6);
+    }
+
+    .sponsor-perk svg {
+      width: 17px;
+      height: 17px;
+      color: hsl(var(--primary));
+      flex-shrink: 0;
+    }
+
+    .partner-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .partner-card {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .partner-card:hover {
+      border-color: hsl(var(--accent));
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+
+    .partner-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: hsl(var(--primary));
+      background: hsl(var(--muted));
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      align-self: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .partner-name {
+      font-size: 18.5px;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 8px;
+    }
+
+    .partner-desc {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    /* Venue Cards */
+    .venue-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .venue-card {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .venue-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .venue-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .venue-desc {
+      font-size: 14.5px;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.6;
+    }
+
+    /* Local File Checker box */
+    .file-checker-box {
+      border: 2px dashed hsl(var(--border));
+      border-radius: var(--radius-md);
+      padding: 24px;
+      background: white;
+      margin-top: 36px;
+    }
+
+    .file-checker-box input[type="file"] {
+      display: none;
+    }
+
+    .file-drop-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-align: center;
+      gap: 10px;
+      padding: 16px;
+    }
+
+    .file-drop-area svg {
+      color: hsl(var(--primary));
+      width: 36px;
+      height: 36px;
+    }
+
+    /* Interactive Registration Form */
+    .reg-form-card {
+      background: white;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      max-width: 680px;
+      margin: 40px auto 0;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 18px;
+      font-family: inherit;
+      font-size: 15px;
+      border: 1.5px solid hsl(var(--border));
+      border-radius: var(--radius-sm);
+      color: hsl(var(--foreground));
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background: hsl(var(--muted) / 0.3);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: hsl(var(--primary));
+      background: white;
+      box-shadow: 0 0 0 3px hsl(var(--accent) / 0.25);
+    }
+
+    .form-error {
+      color: #dc2626;
+      font-size: 12.5px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .form-success {
+      background: hsl(var(--muted));
+      border: 1.5px solid hsl(var(--accent));
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      font-size: 14.5px;
+      color: hsl(var(--foreground));
+      margin-top: 20px;
+      display: none;
+    }
+
+    /* Footer (Lingua Dark Navy Style) */
+    .site-footer {
+      background-color: hsl(var(--foreground));
+      color: white;
+      padding-top: 80px;
+      padding-bottom: 40px;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .footer-col h4 {
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.65);
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand svg {
+      width: 26px;
+      height: 26px;
+      color: hsl(var(--accent));
+    }
+
+    .footer-brand span {
+      font-family: 'Sora', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .footer-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.6;
+      max-width: 340px;
+      margin-bottom: 24px;
+    }
+
+    .footer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: white;
+    }
+
+    .footer-badge span {
+      color: hsl(var(--accent));
+      font-weight: 700;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 32px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1080px) {
+      .meta-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .meta-cell:nth-child(2) {
+        border-right: none;
+      }
+      .meta-cell:nth-child(3) {
+        border-top: 1px solid hsl(var(--border));
+      }
+      .meta-cell:nth-child(4) {
+        border-top: 1px solid hsl(var(--border));
+        border-right: none;
+      }
+      .meta-cell:nth-child(5) {
+        grid-column: 1 / -1;
+        border-top: 1px solid hsl(var(--border));
+        border-right: none;
+      }
+      .areas-grid, .committee-grid, .steps-grid, .venue-grid, .partner-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .lead-sponsor-grid {
+        grid-template-columns: 280px 1fr;
+        gap: 28px;
+      }
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .date-row {
+        grid-template-columns: 180px 1fr 1.5fr;
+      }
+      .date-row .arrow-icon {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-actions .btn-secondary {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .stats-grid, .objectives-grid, .areas-grid, .committee-grid, .steps-grid, .criteria-grid, .venue-grid, .partner-cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .lead-sponsor-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        text-align: center;
+      }
+      .sponsor-perks-grid {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+      .date-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .format-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .format-right {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-bg-text {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar mono">
+    <span><b>ICAICSE 2026</b> · 20–21 October 2026 · Srinagar, India · Organized by National Institute of Technology Srinagar · Sponsored by JK Bank</span>
+  </div>
+
+  <!-- Navbar (Sticky with Scroll Shadow) -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <!-- Logo -->
+      <a href="#hero" class="brand-logo" aria-label="ICAICSE 2026 Home">
+        <!-- GraduationCap / Academic Icon in Accent Yellow -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <span class="brand-title">
+          ICAICSE
+          <span class="brand-badge">2026</span>
+        </span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#cfp">Call for Papers</a>
+        <a href="#dates">Dates</a>
+        <a href="#review">Review</a>
+        <a href="#committee">Committee</a>
+        <a href="#program">Program</a>
+        <a href="#pricing">Registration</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <!-- Nav CTA and Hamburger -->
+      <div class="nav-actions">
+        <a href="#pricing" class="btn-primary">Register Now</a>
+        <button class="hamburger" id="menuToggle" aria-label="Toggle Navigation Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about" class="mobile-link">About ICAICSE</a>
+      <a href="#research" class="mobile-link">Research Areas</a>
+      <a href="#cfp" class="mobile-link">Call for Papers</a>
+      <a href="#dates" class="mobile-link">Important Dates</a>
+      <a href="#review" class="mobile-link">Review Process</a>
+      <a href="#committee" class="mobile-link">Conference Committee</a>
+      <a href="#program" class="mobile-link">Conference Program</a>
+      <a href="#pricing" class="mobile-link">Registration</a>
+      <a href="#sponsors" class="mobile-link">Sponsors & Partners</a>
+      <a href="#venue" class="mobile-link">Venue & Location</a>
+      <a href="#faq" class="mobile-link">FAQ</a>
+      <a href="#contact" class="mobile-link">Contact Organizers</a>
+      <div style="margin-top: 16px;">
+        <a href="#pricing" class="btn-primary" style="width: 100%; justify-content: center;">Register Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <!-- Background Decorative Faint Typography as per prompt -->
+      <span class="hero-bg-text hero-bg-1">COMPUTATION</span>
+      <span class="hero-bg-text hero-bg-2">INTELLIGENCE</span>
+      <span class="hero-bg-text hero-bg-3">SIMULATION</span>
+      <div class="hero-radial"></div>
+
+      <!-- Signature Yellow Ticker Marquee Strip -->
+      <div class="ticker-wrapper" aria-hidden="true">
+        <div class="ticker-track">
+          <!-- Text repeated twice for a seamless infinite loop -->
+          <span class="ticker-item">
+            AI for Computational Science · Physics-Informed ML · Digital Twins · Scientific ML · High-Performance Computing · NIT Srinagar · 20–21 October 2026 · Uncertainty Quantification · Generative AI for Science · Optimization ·
+          </span>
+          <span class="ticker-item">
+            AI for Computational Science · Physics-Informed ML · Digital Twins · Scientific ML · High-Performance Computing · NIT Srinagar · 20–21 October 2026 · Uncertainty Quantification · Generative AI for Science · Optimization ·
+          </span>
+        </div>
+      </div>
+
+      <div class="container hero-content">
+        <!-- Pre-heading -->
+        <p class="pre-heading">INTERNATIONAL RESEARCH CONFERENCE</p>
+
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          Speak the future of <span class="highlight">AI & Computational Science</span> with confidence.
+        </h1>
+
+        <!-- Subtext -->
+        <p class="hero-subtext">
+          ICAICSE 2026 is a multidisciplinary platform for researchers, academicians, scientists, engineers and industry professionals working at the intersection of artificial intelligence, scientific computing and engineering. Organized by National Institute of Technology Srinagar.
+        </p>
+
+        <!-- Call to Action Buttons -->
+        <div class="hero-ctas">
+          <a href="#cfp" class="btn-primary">
+            Call for Papers
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="#about" class="btn-secondary">Explore Conference Details</a>
+        </div>
+
+        <!-- Social Proof Strip -->
+        <div class="hero-social-proof">
+          <div class="proof-item">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <span>Organized by NIT Srinagar</span>
+          </div>
+          <span>·</span>
+          <div class="proof-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>20–21 October 2026</span>
+          </div>
+          <span>·</span>
+          <div class="proof-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>Srinagar, India</span>
+          </div>
+          <span>·</span>
+          <div class="proof-item">
+            <span>Sponsor: JK Bank</span>
+          </div>
+        </div>
+
+        <!-- Key Meta Quick Info Bar -->
+        <div class="meta-bar">
+          <div class="meta-cell">
+            <span class="meta-label">Conference</span>
+            <span class="meta-val">ICAICSE 2026</span>
+          </div>
+          <div class="meta-cell">
+            <span class="meta-label">Date</span>
+            <span class="meta-val">20–21 October 2026</span>
+          </div>
+          <div class="meta-cell">
+            <span class="meta-label">Venue</span>
+            <span class="meta-val"><span class="tba-badge">TO BE ANNOUNCED</span></span>
+          </div>
+          <div class="meta-cell">
+            <span class="meta-label">Organizer</span>
+            <span class="meta-val">NIT Srinagar</span>
+          </div>
+          <div class="meta-cell">
+            <span class="meta-label">Location</span>
+            <span class="meta-val">Srinagar, India</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: ABOUT ICAICSE -->
+    <section class="section-muted" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">01 / ABOUT ICAICSE</span>
+          <h2 class="section-title">An international meeting point for AI, computational science and engineering.</h2>
+          <p class="section-subtitle">
+            ICAICSE brings together work on artificial intelligence, machine learning, scientific computing, computational mathematics, simulation and engineering. It emphasises high-quality, original and interdisciplinary research, with a focus on AI that enhances computational methods, scientific simulation, engineering design, prediction and optimization.
+          </p>
+        </div>
+
+        <!-- Animated Stats Counter Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-title">Conference Days</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">8</div>
+            <div class="stat-title">Research Areas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">10</div>
+            <div class="stat-title">Review Criteria</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">8</div>
+            <div class="stat-title">Programme Formats</div>
+          </div>
+        </div>
+
+        <!-- Conference Objectives Grid -->
+        <div style="margin-bottom: 24px;">
+          <h3 style="font-size: 22px; margin-bottom: 20px;">Conference Objectives</h3>
+          <div class="objectives-grid">
+            <div class="objective-card">
+              <span class="obj-num">01</span>
+              <h4 class="obj-title">Multidisciplinary Platform</h4>
+              <p class="obj-desc">A platform for researchers, academicians, scientists, engineers and industry professionals working at the intersection of AI, machine learning, scientific computing, computational mathematics, simulation and engineering.</p>
+            </div>
+            <div class="objective-card">
+              <span class="obj-num">02</span>
+              <h4 class="obj-title">AI as a Computational Partner</h4>
+              <p class="obj-desc">Promoting AI not merely as a data-analysis tool, but as a partner for scientific discovery, prediction, simulation, optimization and engineering innovation.</p>
+            </div>
+            <div class="objective-card">
+              <span class="obj-num">03</span>
+              <h4 class="obj-title">A Specialised Forum</h4>
+              <p class="obj-desc">A focused forum for research in which AI enhances computational methods, scientific simulation, engineering design, prediction and optimization.</p>
+            </div>
+            <div class="objective-card">
+              <span class="obj-num">04</span>
+              <h4 class="obj-title">A Global, Interdisciplinary Community</h4>
+              <p class="obj-desc">Bringing AI researchers together with scientists and engineers to address real-world computational challenges across industries and international borders.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: RESEARCH AREAS (Styled like the Languages Section) -->
+    <section class="section-white" id="research">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">02 / RESEARCH AREAS</span>
+          <h2 class="section-title">8 Research Areas. Interdisciplinary Innovation. One Platform.</h2>
+          <p class="section-subtitle">
+            All submitted research undergoes double-blind peer review by experts across computational disciplines. The final list of topics will be published with the Call for Papers.
+          </p>
+        </div>
+
+        <div class="areas-grid">
+          <!-- Area 1 -->
+          <div class="area-card">
+            <span class="area-badge">Featured Track</span>
+            <div class="area-icon">🧠</div>
+            <h3 class="area-title">Scientific Machine Learning</h3>
+            <p class="area-meta">Track 01 · A1–C2 Research Rigor</p>
+            <p class="area-desc">Machine learning methods for scientific computing and computational modelling, bridging algorithmic learning with classical scientific principles.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 2 -->
+          <div class="area-card">
+            <span class="area-badge">Featured Track</span>
+            <div class="area-icon">⚛️</div>
+            <h3 class="area-title">Physics-Informed AI</h3>
+            <p class="area-meta">Track 02 · Fundamental & Applied</p>
+            <p class="area-desc">AI methods informed by the physics of the problems they address, enforcing physical laws, conservation constraints, and partial differential equations.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 3 -->
+          <div class="area-card">
+            <div class="area-icon">🌐</div>
+            <h3 class="area-title">AI-Driven Simulation & Digital Twins</h3>
+            <p class="area-meta">Track 03 · High Impact</p>
+            <p class="area-desc">AI-assisted simulation and digital twin approaches for real-time asset monitoring, prognostic health estimation, and cyber-physical systems.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 4 -->
+          <div class="area-card">
+            <div class="area-icon">⚡</div>
+            <h3 class="area-title">AI-HPC</h3>
+            <p class="area-meta">Track 04 · High Performance</p>
+            <p class="area-desc">AI-enabled high-performance computing, distributed training, heterogeneous architectures, and scalable scientific workflows.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 5 -->
+          <div class="area-card">
+            <div class="area-icon">📐</div>
+            <h3 class="area-title">Computational Modelling & Optimization</h3>
+            <p class="area-meta">Track 05 · Core Foundations</p>
+            <p class="area-desc">Computational modelling and intelligent optimization for complex engineering problems, inverse design, and evolutionary computation.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 6 -->
+          <div class="area-card">
+            <div class="area-icon">📊</div>
+            <h3 class="area-title">Uncertainty Quantification</h3>
+            <p class="area-meta">Track 06 · Reliability & Trust</p>
+            <p class="area-desc">Uncertainty in AI-based and computational models, Bayesian deep learning, sensitivity analysis, and probabilistic risk evaluation.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 7 -->
+          <div class="area-card">
+            <div class="area-icon">🧪</div>
+            <h3 class="area-title">Generative AI for Science</h3>
+            <p class="area-meta">Track 07 · Emerging Frontier</p>
+            <p class="area-desc">Generative AI applied to scientific problems including molecular synthesis, material discovery, surrogate modeling, and synthetic scientific data.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+
+          <!-- Area 8 -->
+          <div class="area-card">
+            <div class="area-icon">🚀</div>
+            <h3 class="area-title">AI Applications</h3>
+            <p class="area-meta">Track 08 · Cross-Sector Solutions</p>
+            <p class="area-desc">AI in energy, healthcare, agriculture, climate, materials and engineering disciplines, delivering real-world computational impact.</p>
+            <a href="#cfp" class="area-link">View Track Details →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CALL FOR PAPERS & HOW IT WORKS (Section 4 Style) -->
+    <section class="section-muted" id="cfp">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">03 / CALL FOR PAPERS</span>
+          <h2 class="section-title">Submit Your Research. A clear, rigorous pathway.</h2>
+          <p class="section-subtitle">
+            Original, high-quality and interdisciplinary research within the conference's research areas is invited from academia, research laboratories, industry and international institutions. Papers undergo a plagiarism check and double-blind peer review. Paper formats, page limits, templates and publication arrangements are <span class="tba-badge">TO BE ANNOUNCED</span>.
+          </p>
+        </div>
+
+        <!-- 5-Step Process Grid (Section 4 "How It Works" Style) -->
+        <div class="steps-grid" style="grid-template-columns: repeat(5, 1fr);">
+          <div class="step-item">
+            <div class="step-number">01</div>
+            <div class="step-icon">📝</div>
+            <h3 class="step-title">Prepare Manuscript</h3>
+            <p class="step-desc">Prepare an original manuscript within the conference's research areas. Author guidelines: <span class="tba-badge">TO BE ANNOUNCED</span>.</p>
+            <span class="step-time">Guidelines TBA</span>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">02</div>
+            <div class="step-icon">📤</div>
+            <h3 class="step-title">Submit Paper</h3>
+            <p class="step-desc">Submission deadline: 15 December 2026. Submission portal is <span class="tba-badge">TO BE ANNOUNCED</span>.</p>
+            <span class="step-time">15 Dec 2026</span>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">03</div>
+            <div class="step-icon">🔍</div>
+            <h3 class="step-title">Rigorous Review</h3>
+            <p class="step-desc">All submitted papers undergo a comprehensive plagiarism check followed by double-blind peer review by international experts.</p>
+            <span class="step-time">Double-Blind</span>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">04</div>
+            <div class="step-icon">📬</div>
+            <h3 class="step-title">Acceptance Decision</h3>
+            <p class="step-desc">Acceptance notification is sent to corresponding authors on 25 December 2026 with constructive reviewer feedback.</p>
+            <span class="step-time">25 Dec 2026</span>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">05</div>
+            <div class="step-icon">🎯</div>
+            <h3 class="step-title">Final Camera-Ready</h3>
+            <p class="step-desc">Deadline for submitting the final revised camera-ready versions of accepted papers is 31 December 2026.</p>
+            <span class="step-time">31 Dec 2026</span>
+          </div>
+        </div>
+
+        <!-- Local File Check Widget (as per original data) -->
+        <div class="file-checker-box">
+          <div class="file-drop-area" id="dropArea">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+            <p style="font-size: 15px; font-weight: 600; color: hsl(var(--foreground));">
+              Local File Check · Not a Submission
+            </p>
+            <p style="font-size: 13.5px; color: hsl(var(--muted-foreground)); max-width: 500px;">
+              Choose a file (.pdf, .doc, .docx) to verify its name and size locally in your browser. Nothing is uploaded to any server.
+            </p>
+            <label for="localFileInput" class="btn-secondary" style="margin-top: 8px;">
+              Select Local File
+            </label>
+            <input type="file" id="localFileInput" accept=".pdf,.doc,.docx">
+            <div id="fileInfoText" style="margin-top: 8px; font-size: 13px; font-weight: 600; color: hsl(var(--primary));"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: IMPORTANT DATES -->
+    <section class="section-white" id="dates">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">04 / IMPORTANT DATES</span>
+          <h2 class="section-title">Key dates for authors and participants.</h2>
+          <p class="section-subtitle">
+            Plan your submissions, preparations, and attendance according to the official conference calendar.
+          </p>
+        </div>
+
+        <div class="dates-container">
+          <!-- Row 1 -->
+          <div class="date-row">
+            <div class="date-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              15 December 2026
+            </div>
+            <div class="date-title">Paper Submission</div>
+            <div class="date-desc">Deadline for submitting original research papers.</div>
+            <div class="arrow-icon" style="color: hsl(var(--accent)); font-weight: bold;">→</div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="date-row">
+            <div class="date-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              25 December 2026
+            </div>
+            <div class="date-title">Acceptance Notification</div>
+            <div class="date-desc">Authors are informed of peer-review decisions.</div>
+            <div class="arrow-icon" style="color: hsl(var(--accent)); font-weight: bold;">→</div>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="date-row">
+            <div class="date-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              31 December 2026
+            </div>
+            <div class="date-title">Final Papers</div>
+            <div class="date-desc">Deadline for final camera-ready versions of accepted papers.</div>
+            <div class="arrow-icon" style="color: hsl(var(--accent)); font-weight: bold;">→</div>
+          </div>
+
+          <!-- Row 4 -->
+          <div class="date-row">
+            <div class="date-badge">
+              <span class="tba-badge">TO BE ANNOUNCED</span>
+            </div>
+            <div class="date-title">Registration Period</div>
+            <div class="date-desc">Registration window for authors and delegates.</div>
+            <div class="arrow-icon" style="color: hsl(var(--accent)); font-weight: bold;">→</div>
+          </div>
+
+          <!-- Row 5 -->
+          <div class="date-row">
+            <div class="date-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              20–21 October 2026
+            </div>
+            <div class="date-title">Conference Dates</div>
+            <div class="date-desc">ICAICSE 2026 takes place in Srinagar, India.</div>
+            <div class="arrow-icon" style="color: hsl(var(--accent)); font-weight: bold;">→</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: REVIEW PROCESS & CRITERIA -->
+    <section class="section-muted" id="review">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">05 / REVIEW PROCESS</span>
+          <h2 class="section-title">A structured review process for rigorous research.</h2>
+          <p class="section-subtitle">
+            Recommendations weigh novelty, technical rigor, relevance and potential impact — not publication venue or the reputation of authors or institutions.
+          </p>
+        </div>
+
+        <!-- 10 Criteria Grid -->
+        <h3 style="font-size: 22px; margin-bottom: 20px;">Review Criteria</h3>
+        <div class="criteria-grid">
+          <div class="criterion-card">
+            <span class="crit-idx">01</span>
+            <div>
+              <h4 class="crit-title">Relevance to the Conference</h4>
+              <p class="crit-desc">Alignment with AI, computational science, scientific computing, modelling, simulation or engineering applications.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">02</span>
+            <div>
+              <h4 class="crit-title">Originality and Novelty</h4>
+              <p class="crit-desc">Innovation in the proposed methodology, model, algorithm, framework or application.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">03</span>
+            <div>
+              <h4 class="crit-title">Technical Quality and Correctness</h4>
+              <p class="crit-desc">Soundness of methodology, theory, experiments, simulations and results.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">04</span>
+            <div>
+              <h4 class="crit-title">AI / Computational Contribution</h4>
+              <p class="crit-desc">Significance of the AI or computational techniques for the targeted problem.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">05</span>
+            <div>
+              <h4 class="crit-title">Experimental / Computational Validation</h4>
+              <p class="crit-desc">Adequacy of datasets, benchmarks, simulations, comparisons, statistics and metrics.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">06</span>
+            <div>
+              <h4 class="crit-title">Results and Discussion</h4>
+              <p class="crit-desc">Clarity, significance and interpretation of results, compared with existing approaches.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">07</span>
+            <div>
+              <h4 class="crit-title">Reproducibility</h4>
+              <p class="crit-desc">Sufficient detail on algorithms, datasets and settings to enable verification.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">08</span>
+            <div>
+              <h4 class="crit-title">Clarity and Organization</h4>
+              <p class="crit-desc">Writing, structure, figures, tables, references and presentation.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">09</span>
+            <div>
+              <h4 class="crit-title">Significance and Impact</h4>
+              <p class="crit-desc">Potential contribution to discovery, engineering practice, methods or applications.</p>
+            </div>
+          </div>
+
+          <div class="criterion-card">
+            <span class="crit-idx">10</span>
+            <div>
+              <h4 class="crit-title">Ethical and Responsible AI</h4>
+              <p class="crit-desc">Explainability, fairness, privacy, uncertainty and safety, where applicable.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendation Categories -->
+        <div style="margin-top: 48px;">
+          <h3 style="font-size: 20px; margin-bottom: 12px;">Recommendation Categories</h3>
+          <p style="font-size: 14.5px; color: hsl(var(--muted-foreground)); margin-bottom: 16px;">
+            Submitted papers receive one of the following official recommendations following double-blind assessment:
+          </p>
+          <div class="cats-pill-list">
+            <span class="cat-pill">Strong Accept</span>
+            <span class="cat-pill">Accept</span>
+            <span class="cat-pill">Weak Accept</span>
+            <span class="cat-pill">Borderline</span>
+            <span class="cat-pill">Weak Reject</span>
+            <span class="cat-pill">Reject</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: COMMITTEE (Section 5 "Meet the Teachers" Style) -->
+    <section class="section-white" id="committee">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">06 / CONFERENCE COMMITTEE</span>
+          <h2 class="section-title">Meet the Organizers & Committee Chairs.</h2>
+          <p class="section-subtitle">
+            Leading researchers and academicians steering ICAICSE 2026 from the National Institute of Technology Srinagar.
+          </p>
+        </div>
+
+        <div class="committee-grid">
+          <!-- Member 1: Dr. Shabir Ahmad Sofi -->
+          <div class="committee-card">
+            <div class="member-avatar">SS</div>
+            <h3 class="member-name">Dr. Shabir Ahmad Sofi</h3>
+            <span class="member-role">Programme Committee Chair</span>
+            <p class="member-dept">Department of Information Technology, NIT Srinagar</p>
+            <p class="member-quote">
+              "Fostering rigorous interdisciplinary discourse where computational foundations and emerging artificial intelligence paradigms advance engineering innovation."
+            </p>
+            <div class="member-tags">
+              <span class="member-tag">Programme Chair</span>
+              <span class="member-tag">IT Dept</span>
+              <span class="member-tag">AI-HPC</span>
+            </div>
+            <a href="mailto:saniyazahoor@nitsri.ac.in?subject=Enquiry%20for%20Dr.%20Shabir%20Ahmad%20Sofi" class="btn-secondary" style="font-size: 13px; padding: 8px 16px; justify-content: center;">
+              Contact Chair
+            </a>
+          </div>
+
+          <!-- Member 2: Dr. Malik Parveez -->
+          <div class="committee-card">
+            <div class="member-avatar">MP</div>
+            <h3 class="member-name">Dr. Malik Parveez</h3>
+            <span class="member-role">Programme Committee Chair</span>
+            <p class="member-dept">Department of Chemical Engineering, NIT Srinagar</p>
+            <p class="member-quote">
+              "Bringing AI not merely as an analytics tool, but as a core partner for computational modelling, chemical process simulation, and materials discovery."
+            </p>
+            <div class="member-tags">
+              <span class="member-tag">Programme Chair</span>
+              <span class="member-tag">Chemical Eng</span>
+              <span class="member-tag">Modelling</span>
+            </div>
+            <a href="mailto:saniyazahoor@nitsri.ac.in?subject=Enquiry%20for%20Dr.%20Malik%20Parveez" class="btn-secondary" style="font-size: 13px; padding: 8px 16px; justify-content: center;">
+              Contact Chair
+            </a>
+          </div>
+
+          <!-- Member 3: Dr. Saniya Zahoor -->
+          <div class="committee-card" style="border-color: hsl(var(--accent));">
+            <span class="area-badge">Key Contact</span>
+            <div class="member-avatar" style="background: hsl(var(--foreground));">SZ</div>
+            <h3 class="member-name">Dr. Saniya Zahoor</h3>
+            <span class="member-role">Conference Coordinator</span>
+            <p class="member-dept">Department of Information Technology, NIT Srinagar</p>
+            <p class="member-quote">
+              "We welcome researchers from across academia and industry to join us in Srinagar to build an enduring global community in computational science."
+            </p>
+            <div class="member-tags">
+              <span class="member-tag">Coordinator</span>
+              <span class="member-tag">IT Dept</span>
+              <span class="member-tag">Scientific ML</span>
+            </div>
+            <a href="mailto:saniyazahoor@nitsri.ac.in?subject=ICAICSE%202026%20Coordination" class="btn-primary" style="font-size: 13px; padding: 8px 16px; justify-content: center;">
+              Email Coordinator
+            </a>
+          </div>
+
+          <!-- Member 4: Ms. Samroot Samreen Wani -->
+          <div class="committee-card">
+            <div class="member-avatar">SW</div>
+            <h3 class="member-name">Ms. Samroot Samreen Wani</h3>
+            <span class="member-role">Committee Member</span>
+            <p class="member-dept">Department of Chemical Engineering, NIT Srinagar</p>
+            <p class="member-quote">
+              "Dedicated to creating an open, inspiring conference experience for early-career researchers and established scientists alike."
+            </p>
+            <div class="member-tags">
+              <span class="member-tag">Organizing Member</span>
+              <span class="member-tag">Chemical Eng</span>
+              <span class="member-tag">Simulation</span>
+            </div>
+            <a href="mailto:saniyazahoor@nitsri.ac.in?subject=Enquiry%20for%20Ms.%20Samroot%20Samreen%20Wani" class="btn-secondary" style="font-size: 13px; padding: 8px 16px; justify-content: center;">
+              Contact Member
+            </a>
+          </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px;">
+          <a href="#contact" class="btn-link" style="font-size: 16px;">
+            Get in touch with the conference organizing team →
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 7: PROGRAM FORMATS (Section 6 "Courses" Style) -->
+    <section class="section-muted" id="program">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">07 / CONFERENCE PROGRAM</span>
+          <h2 class="section-title">Structured Sessions, Clear Academic Outcomes.</h2>
+          <p class="section-subtitle">
+            ICAICSE 2026 offers eight distinct engagement formats for authors, delegates, and keynote speakers. Schedule, speakers and timings are <span class="tba-badge">TO BE ANNOUNCED</span>. Outstanding contributions may be recognised with a Best Paper Award.
+          </p>
+        </div>
+
+        <div class="formats-list">
+          <!-- Format 1 -->
+          <div class="format-item">
+            <div class="format-left">
+              <div class="format-header">
+                <h3 class="format-title">Keynote Lectures</h3>
+                <span class="format-tag">Plenary</span>
+              </div>
+              <p class="format-desc">
+                Visionary talks by globally recognized pioneers in artificial intelligence, computational science, and physics-informed modeling. Setting the tone for international collaboration.
+              </p>
+              <p class="format-meta">Plenary Hall · All Delegates</p>
+            </div>
+            <div class="format-right">
+              <span class="format-status"><span class="tba-badge">TO BE ANNOUNCED</span></span>
+              <span class="format-meta">Schedule in progress</span>
+            </div>
+          </div>
+
+          <!-- Format 2 -->
+          <div class="format-item">
+            <div class="format-left">
+              <div class="format-header">
+                <h3 class="format-title">Invited Talks</h3>
+                <span class="format-tag">Featured</span>
+              </div>
+              <p class="format-desc">
+                Focused technical sessions featuring invited thought leaders exploring state-of-the-art breakthroughs in scientific machine learning, high-performance computing, and surrogate optimization.
+              </p>
+              <p class="format-meta">Parallel Sessions · Expert Discussions</p>
+            </div>
+            <div class="format-right">
+              <span class="format-status"><span class="tba-badge">TO BE ANNOUNCED</span></span>
+              <span class="format-meta">Schedule in progress</span>
+            </div>
+          </div>
+
+          <!-- Format 3 -->
+          <div class="format-item">
+            <div class="format-left">
+              <div class="format-header">
+                <h3 class="format-title">Technical Paper Sessions</h3>
+                <span class="format-tag">Peer-Reviewed</span>
+              </div>
+              <p class="format-desc">
+                Oral presentations of original peer-reviewed accepted manuscripts, grouped by research track, followed by in-depth Q&A and interactive feedback from session chairs.
+              </p>
+              <p class="format-meta">8 Thematic Tracks · Author Presentations</p>
+            </div>
+            <div class="format-right">
+              <span class="format-status"><span class="tba-badge">TO BE ANNOUNCED</span></span>
+              <span class="format-meta">Schedule in progress</span>
+            </div>
+          </div>
+
+          <!-- Format 4 -->
+          <div class="format-item">
+            <div class="format-left">
+              <div class="format-header">
+                <h3 class="format-title">Special Sessions & Workshops</h3>
+                <span class="format-tag">Hands-on</span>
+              </div>
+              <p class="format-desc">
+                Dedicated workshops focusing on specialized computational tools, physics-informed neural network frameworks, digital twin platforms, and industry-sponsored problem sets.
+              </p>
+              <p class="format-meta">Interactive Labs · Domain Specific</p>
+            </div>
+            <div class="format-right">
+              <span class="format-status"><span class="tba-badge">TO BE ANNOUNCED</span></span>
+              <span class="format-meta">Schedule in progress</span>
+            </div>
+          </div>
+
+          <!-- Format 5 -->
+          <div class="format-item">
+            <div class="format-left">
+              <div class="format-header">
+                <h3 class="format-title">Poster Presentations & Early-Career Forum</h3>
+                <span class="format-tag">Interactive</span>
+              </div>
+              <p class="format-desc">
+                High-engagement poster sessions and dedicated forums for PhD scholars and early-career researchers to showcase preliminary findings and receive mentorship from senior scientists.
+              </p>
+              <p class="format-meta">Exhibition Gallery · Mentorship & Networking</p>
+            </div>
+            <div class="format-right">
+              <span class="format-status"><span class="tba-badge">TO BE ANNOUNCED</span></span>
+              <span class="format-meta">Schedule in progress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: REGISTRATION (Section 7 "Pricing" Style) -->
+    <section class="section-white" id="pricing">
+      <div class="container" style="text-align: center;">
+        <div class="section-header" style="max-width: 680px; margin-left: auto; margin-right: auto;">
+          <span class="section-tag" style="justify-content: center;">08 / REGISTRATION</span>
+          <h2 class="section-title">Simple, transparent participation.</h2>
+          <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">
+            Registration categories and fee schedules are <span class="tba-badge">TO BE ANNOUNCED</span>. You may leave your details below to prepare for early registration.
+          </p>
+        </div>
+
+        <!-- 3-Column Plan Grid (Section 7 Pricing Style) -->
+        <div class="plans-grid">
+          <!-- Plan 1 -->
+          <div class="plan-card">
+            <span class="plan-tag">Attendee & Delegate</span>
+            <h3 class="plan-title">Student & Academic</h3>
+            <div class="plan-price-wrap">
+              <span class="plan-price"><span class="tba-badge">TBA</span></span>
+              <span class="plan-period">/ participant</span>
+            </div>
+            <p class="plan-desc">
+              Full access to all keynote sessions, oral paper presentations, poster exhibitions, and delegate kits.
+            </p>
+            <ul class="plan-features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Access to all 8 technical tracks</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Plenary keynotes and invited talks</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Delegate kit and official badge</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Certificate of Participation</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Conference lunch & tea sessions</span>
+              </li>
+            </ul>
+            <a href="#regForm" class="btn-secondary" style="justify-content: center;">
+              Pre-Register Interest
+            </a>
+          </div>
+
+          <!-- Plan 2 (Highlighted Card - Lingua Best Value Style) -->
+          <div class="plan-card highlight">
+            <span class="plan-tag">CORE REGISTRATION</span>
+            <h3 class="plan-title">Author (Presenter)</h3>
+            <div class="plan-price-wrap">
+              <span class="plan-price"><span class="tba-badge" style="background: hsl(var(--accent)); color: hsl(var(--foreground));">TBA</span></span>
+              <span class="plan-period">/ accepted paper</span>
+            </div>
+            <p class="plan-desc">
+              Mandatory for accepted papers to be presented and included in the official conference proceedings.
+            </p>
+            <ul class="plan-features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Oral presentation slot in technical session</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Inclusion in conference proceedings</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Eligibility for Best Paper Awards</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Author Certificate of Presentation</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Full access to all sessions and workshops</span>
+              </li>
+            </ul>
+            <a href="#regForm" class="btn-accent" style="justify-content: center;">
+              Author Pre-Registration
+            </a>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="plan-card">
+            <span class="plan-tag">Industry & Sponsor</span>
+            <h3 class="plan-title">Corporate & Exhibitor</h3>
+            <div class="plan-price-wrap">
+              <span class="plan-price"><span class="tba-badge">CUSTOM</span></span>
+              <span class="plan-period">/ organization</span>
+            </div>
+            <p class="plan-desc">
+              For research laboratories, technology vendors, and institutional sponsors looking to showcase engineering tools and engage talent.
+            </p>
+            <ul class="plan-features">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Multiple delegate access passes</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Branding in conference banners & kit</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Exhibition booth / demo space</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Special industry session presentation</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Sponsor recognition across digital portals</span>
+              </li>
+            </ul>
+            <a href="mailto:saniyazahoor@nitsri.ac.in?subject=Sponsorship%20Enquiry%20ICAICSE%202026" class="btn-secondary" style="justify-content: center;">
+              Contact Organizers →
+            </a>
+          </div>
+        </div>
+
+        <!-- Registration Form Card -->
+        <div class="reg-form-card" id="regForm">
+          <h3 style="font-size: 24px; margin-bottom: 8px;">Pre-Registration & Updates</h3>
+          <p style="font-size: 14px; color: hsl(var(--muted-foreground)); margin-bottom: 24px;">
+            Leave your name and email to receive the official registration call and fee structure as soon as announced.
+          </p>
+          <form id="preRegForm" novalidate>
+            <div class="form-group">
+              <label for="fullNameInput" class="form-label">Full Name</label>
+              <input type="text" id="fullNameInput" class="form-input" placeholder="e.g. Dr. Alex Mercer" required>
+              <div class="form-error" id="nameError">Please enter your full name.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="emailInput" class="form-label">Institutional / Academic Email</label>
+              <input type="email" id="emailInput" class="form-input" placeholder="name@institution.edu" required>
+              <div class="form-error" id="emailError">Please enter a valid email address.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="interestCategory" class="form-label">Participation Category</label>
+              <select id="interestCategory" class="form-input" style="cursor: pointer;">
+                <option value="author">Paper Author (Presenter)</option>
+                <option value="delegate">Academic Delegate / Attendee</option>
+                <option value="student">Student / Research Scholar</option>
+                <option value="industry">Industry Professional / Sponsor</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px;">
+              Submit Pre-Registration →
+            </button>
+            <div class="form-success" id="regSuccess"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 09: SPONSORS & PARTNERS -->
+    <section class="section-muted" id="sponsors">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">09 / SPONSORS & PARTNERS</span>
+          <h2 class="section-title">Proudly Supported by Industry & Academic Leaders.</h2>
+          <p class="section-subtitle">
+            ICAICSE 2026 is honored to collaborate with leading financial institutions and academic bodies committed to advancing research, education, and innovation in computational science and artificial intelligence.
+          </p>
+        </div>
+
+        <!-- Featured Lead Sponsor Showcase Card: JK Bank -->
+        <div class="sponsors-lead-card">
+          <div class="lead-sponsor-grid">
+            <!-- Left: High-Fidelity J&K Bank Logo Box -->
+            <div class="sponsor-logo-box">
+              <svg viewBox="0 0 250 82" width="235" height="76" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="J&amp;K Bank Logo">
+                <defs>
+                  <linearGradient id="jkBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#004b93" />
+                    <stop offset="100%" stop-color="#002254" />
+                  </linearGradient>
+                  <linearGradient id="jkRedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ea2830" />
+                    <stop offset="100%" stop-color="#b8141a" />
+                  </linearGradient>
+                  <linearGradient id="jkGreenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00a84d" />
+                    <stop offset="100%" stop-color="#006b2f" />
+                  </linearGradient>
+                  <filter id="jkShadow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity="0.15" />
+                  </filter>
+                </defs>
+
+                <!-- Tri-Color Pinwheel Emblem -->
+                <g transform="translate(6, 6)" filter="url(#jkShadow)">
+                  <!-- Red Petal (Top-Left) -->
+                  <path d="M 33 5 C 19 5 7 17 7 31 C 7 39 11 46 17 50 C 17 39 25 31 37 31 C 37 19 34 5 33 5 Z" fill="url(#jkRedGrad)" />
+                  <!-- Blue Petal (Top-Right) -->
+                  <path d="M 59 31 C 59 17 47 5 33 5 C 25 5 18 9 14 15 C 25 15 33 23 33 35 C 45 35 59 32 59 31 Z" fill="url(#jkBlueGrad)" />
+                  <!-- Green Petal (Bottom) -->
+                  <path d="M 33 59 C 47 59 59 47 59 33 C 59 25 55 18 49 14 C 49 25 41 33 29 33 C 29 45 32 59 33 59 Z" fill="url(#jkGreenGrad)" />
+                  <!-- Center Core Accent Ring & Dot -->
+                  <circle cx="33" cy="32" r="5.5" fill="#fecb3e" />
+                  <circle cx="33" cy="32" r="2.5" fill="#ffffff" />
+                </g>
+
+                <!-- Brand Name & Official Tagline -->
+                <text x="80" y="37" font-family="'Sora', sans-serif" font-weight="800" font-size="25" fill="#1b2654" letter-spacing="-0.03em">J&amp;K Bank</text>
+                <text x="81" y="53" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="9" fill="#b8141a" letter-spacing="0.16em">SERVING TO EMPOWER</text>
+                <text x="81" y="65" font-family="'JetBrains Mono', monospace" font-weight="500" font-size="8.5" fill="#586782" letter-spacing="0.06em">ESTD. 1938 · PREMIER BANK</text>
+              </svg>
+              <span class="sponsor-bank-tag">Lead Financial Sponsor</span>
+            </div>
+
+            <!-- Right: Details, Vision & Impact -->
+            <div>
+              <div class="sponsor-badge-top">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                OFFICIAL PRINCIPAL SPONSOR
+              </div>
+              <h3 class="sponsor-title">The Jammu &amp; Kashmir Bank Ltd. (J&amp;K Bank)</h3>
+              <p class="sponsor-subtitle">Principal Financial Partner &amp; Academic Supporter for ICAICSE 2026</p>
+              <p class="sponsor-desc">
+                Established on 1st October 1938, J&amp;K Bank has been an enduring pillar of socio-economic empowerment and educational development across Jammu &amp; Kashmir and India. As the lead financial sponsor of ICAICSE 2026, J&amp;K Bank champions technological progress, supporting scientific computing research, youth development, and international academia.
+              </p>
+
+              <!-- Contribution Perks Grid -->
+              <div class="sponsor-perks-grid">
+                <div class="sponsor-perk">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Student &amp; Early-Career Travel Grants</span>
+                </div>
+                <div class="sponsor-perk">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Best Research Paper Awards Support</span>
+                </div>
+                <div class="sponsor-perk">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Exclusive Digital Banking Partner</span>
+                </div>
+                <div class="sponsor-perk">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Advancing Regional AI &amp; STEM Initiatives</span>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                <a href="https://www.jkbank.com/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size: 13.5px; padding: 10px 20px;">
+                  Visit J&amp;K Bank Official Site
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </a>
+                <a href="#contact" class="btn-secondary" style="font-size: 13.5px; padding: 10px 20px;">
+                  Sponsorship Details
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic & Institutional Partners Grid -->
+        <div class="partner-cards-grid">
+          <!-- Partner 1 -->
+          <div class="partner-card">
+            <span class="partner-tag">Academic Host &amp; Organizer</span>
+            <h4 class="partner-name">NIT Srinagar</h4>
+            <p class="partner-desc">
+              National Institute of Technology Srinagar (established 1960) is an institute of national importance, fostering cutting-edge engineering pedagogy, scientific simulation, and interdisciplinary computational research.
+            </p>
+            <p style="margin-top: 16px; font-size: 12.5px; font-weight: 600; color: hsl(var(--primary));">
+              Organizing Institution · Hazratbal, Srinagar
+            </p>
+          </div>
+
+          <!-- Partner 2 -->
+          <div class="partner-card">
+            <span class="partner-tag">Academic Departments</span>
+            <h4 class="partner-name">IT &amp; Chemical Engineering</h4>
+            <p class="partner-desc">
+              Jointly organized by the Department of Information Technology and Department of Chemical Engineering, uniting machine intelligence with physical, chemical, and computational engineering systems.
+            </p>
+            <p style="margin-top: 16px; font-size: 12.5px; font-weight: 600; color: hsl(var(--primary));">
+              Programme Leadership &amp; Technical Review
+            </p>
+          </div>
+
+          <!-- Partner 3 -->
+          <div class="partner-card" style="border-style: dashed; border-color: hsl(var(--border)); background: hsl(var(--muted) / 0.4);">
+            <span class="partner-tag" style="background: hsl(var(--accent)); color: hsl(var(--foreground));">Join as Sponsor</span>
+            <h4 class="partner-name">Corporate &amp; Industry Partnership</h4>
+            <p class="partner-desc">
+              Connect your brand with international researchers, top faculty, and emerging AI engineering talent. Tailored exhibition booths, branding slots, and special sessions are available.
+            </p>
+            <a href="mailto:saniyazahoor@nitsri.ac.in?subject=ICAICSE%202026%20Sponsorship%20Opportunities" class="btn-link" style="margin-top: 16px; font-size: 13.5px;">
+              Request Sponsorship Deck →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: VENUE & LOCATION -->
+    <section class="section-white" id="venue">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">10 / VENUE & LOCATION</span>
+          <h2 class="section-title">Hosted in the Scenic Valley of Srinagar, India.</h2>
+          <p class="section-subtitle">
+            Organized by the National Institute of Technology Srinagar, situated on the western banks of Dal Lake.
+          </p>
+        </div>
+
+        <div class="venue-grid">
+          <div class="venue-card">
+            <div class="venue-icon">🏛️</div>
+            <h3 class="venue-title">Organizer & Campus</h3>
+            <p class="venue-desc">
+              National Institute of Technology Srinagar (NIT Srinagar), an institute of national importance established in 1960. Located at Hazratbal, Srinagar 190006, Jammu & Kashmir, India.
+            </p>
+          </div>
+
+          <div class="venue-card">
+            <div class="venue-icon">📍</div>
+            <h3 class="venue-title">Conference Venue</h3>
+            <p class="venue-desc">
+              Specific conference hall, auditorium and technical session venues within Srinagar are <span class="tba-badge">TO BE ANNOUNCED</span>.
+            </p>
+          </div>
+
+          <div class="venue-card">
+            <div class="venue-icon">✈️</div>
+            <h3 class="venue-title">City & Travel</h3>
+            <p class="venue-desc">
+              Srinagar, India. Connected via Sheikh ul-Alam International Airport (SXR) with regular direct flights to New Delhi, Mumbai, and major national hubs. Autumn in late October features pleasant crisp weather.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 11: FAQ (Section 9 Accordion Style) -->
+    <section class="section-muted" id="faq">
+      <div class="container">
+        <div class="section-header" style="text-align: center;">
+          <span class="section-tag" style="justify-content: center;">11 / FAQ</span>
+          <h2 class="section-title">Frequently asked questions.</h2>
+          <p class="section-subtitle" style="margin-left: auto; margin-right: auto;">
+            Find quick answers regarding conference scope, submission protocols, review criteria, and dates.
+          </p>
+        </div>
+
+        <div class="faq-container">
+          <!-- FAQ 1 -->
+          <div class="accordion-item active">
+            <button class="accordion-trigger" type="button" aria-expanded="true">
+              <span class="accordion-question">What is ICAICSE?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                ICAICSE is the International Conference on Artificial Intelligence for Computational Science and Engineering, organized by the National Institute of Technology Srinagar. ICAICSE 2026 is the inaugural edition uniting research at the confluence of AI and scientific simulation.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">Who can participate?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                Researchers, academicians, scientists, engineers and industry professionals. Participation from academia, research laboratories, industry, and international institutions is warmly welcomed.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">What research areas are covered?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                Scientific machine learning, physics-informed AI, AI-driven simulation and digital twins, AI-HPC, computational modelling and optimization, uncertainty quantification, generative AI for science, and AI applications in energy, healthcare, agriculture, climate, materials and engineering.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">How can I submit a paper?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                The submission deadline is 15 December 2026. Author guidelines, manuscript templates, and the submission portal link will be announced. This website does not accept paper uploads directly.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">What are the important dates?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                Paper Submission: 15 December 2026 · Acceptance Notification: 25 December 2026 · Final Camera-Ready Papers: 31 December 2026 · Conference Dates: 20–21 October 2026.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">What is the review process?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                Double-blind peer review by international experts, plus a mandatory plagiarism check, assessed strictly across ten published criteria.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 7 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">Where will ICAICSE be held?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                In Srinagar, Jammu & Kashmir, India. The specific conference auditorium venue is <span class="tba-badge">TO BE ANNOUNCED</span>.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 8 -->
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span class="accordion-question">How can I contact the organizers?</span>
+              <span class="accordion-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-answer">
+                Please contact Dr. Saniya Zahoor, Conference Coordinator, at <a href="mailto:saniyazahoor@nitsri.ac.in" style="color: hsl(var(--primary)); text-decoration: underline;">saniyazahoor@nitsri.ac.in</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 11: CONTACT SECTION (Deep Navy & Accent) -->
+    <section class="site-footer" id="contact" style="border-top: none;">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- Col 1: Brand & Coordinator -->
+          <div class="footer-col">
+            <div class="footer-brand">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+              <span>ICAICSE 2026</span>
+            </div>
+            <p class="footer-desc">
+              International Conference on Artificial Intelligence for Computational Science and Engineering. Organized by National Institute of Technology Srinagar.
+            </p>
+            <div class="footer-badge">
+              <span>★ Sponsor:</span> JK Bank
+            </div>
+          </div>
+
+          <!-- Col 2: Research Areas -->
+          <div class="footer-col">
+            <h4>Research Areas</h4>
+            <ul class="footer-links">
+              <li><a href="#research">Scientific Machine Learning</a></li>
+              <li><a href="#research">Physics-Informed AI</a></li>
+              <li><a href="#research">Simulation & Digital Twins</a></li>
+              <li><a href="#research">AI-HPC Architectures</a></li>
+              <li><a href="#research">Computational Modelling</a></li>
+              <li><a href="#research">Uncertainty Quantification</a></li>
+              <li><a href="#research">Generative AI for Science</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Quick Links -->
+          <div class="footer-col">
+            <h4>Conference</h4>
+            <ul class="footer-links">
+              <li><a href="#about">About the Conference</a></li>
+              <li><a href="#cfp">Call for Papers</a></li>
+              <li><a href="#dates">Important Dates</a></li>
+              <li><a href="#review">Review Process & Criteria</a></li>
+              <li><a href="#committee">Organizing Committee</a></li>
+              <li><a href="#program">Program & Tracks</a></li>
+              <li><a href="#pricing">Registration Plans</a></li>
+              <li><a href="#sponsors">Sponsors & Partners</a></li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Contact & Organizer Info -->
+          <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <ul class="footer-links" style="color: rgba(255, 255, 255, 0.75); font-size: 14px;">
+              <li>
+                <strong style="color: white;">Coordinator:</strong><br>
+                Dr. Saniya Zahoor
+              </li>
+              <li>
+                <strong style="color: white;">Email:</strong><br>
+                <a href="mailto:saniyazahoor@nitsri.ac.in" style="color: hsl(var(--accent));">saniyazahoor@nitsri.ac.in</a>
+              </li>
+              <li>
+                <strong style="color: white;">Department:</strong><br>
+                Department of Information Technology,<br>NIT Srinagar, Hazratbal, Srinagar 190006, India
+              </li>
+              <li>
+                <strong style="color: white;">Dates:</strong> 20–21 October 2026
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom Row -->
+        <div class="footer-bottom">
+          <p>© 2026 ICAICSE · Organized by National Institute of Technology Srinagar. All rights reserved.</p>
+          <p>Srinagar, Jammu & Kashmir, India · Sponsored by JK Bank</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JAVASCRIPT LOGIC & INTERACTIONS -->
+  <script>
+    // 1. Sticky Navbar scroll shadow
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // 2. Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    // Close mobile menu on clicking any link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // 3. FAQ Accordion Toggle
+    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+    accordionTriggers.forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.accordion-item');
+        const isActive = item.classList.contains('active');
+
+        // Close other items
+        document.querySelectorAll('.accordion-item').forEach(otherItem => {
+          otherItem.classList.remove('active');
+          otherItem.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle current item
+        if (!isActive) {
+          item.classList.add('active');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // 4. Local File Check Widget (client-side only, no upload)
+    const fileInput = document.getElementById('localFileInput');
+    const fileInfoText = document.getElementById('fileInfoText');
+    if (fileInput) {
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const sizeKb = (file.size / 1024).toFixed(1);
+          fileInfoText.innerHTML = `✓ <strong>${file.name}</strong> (${sizeKb} KB) selected locally. Paper format check: ready.`;
+        } else {
+          fileInfoText.textContent = '';
+        }
+      });
+    }
+
+    // 5. Pre-Registration Form Validation
+    const preRegForm = document.getElementById('preRegForm');
+    if (preRegForm) {
+      preRegForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('fullNameInput');
+        const emailInput = document.getElementById('emailInput');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const regSuccess = document.getElementById('regSuccess');
+
+        let isValid = true;
+
+        if (!nameInput.value.trim()) {
+          nameError.style.display = 'block';
+          isValid = false;
+        } else {
+          nameError.style.display = 'none';
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value.trim())) {
+          emailError.style.display = 'block';
+          isValid = false;
+        } else {
+          emailError.style.display = 'none';
+        }
+
+        if (isValid) {
+          regSuccess.style.display = 'block';
+          regSuccess.innerHTML = `Thank you, <strong>${nameInput.value.trim()}</strong>! Your pre-registration interest has been recorded in your local browser session. Formal registration links and author portal details will be announced soon.`;
+          nameInput.value = '';
+          emailInput.value = '';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

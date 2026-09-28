@@ -44,6 +44,8 @@
     html {
       scroll-behavior: smooth;
       scroll-padding-top: 80px;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     body {
@@ -55,6 +57,13 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      width: 100%;
+      position: relative;
+    }
+
+    img, svg, video, canvas, audio, iframe, embed, object {
+      max-width: 100%;
+      height: auto;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -311,23 +320,65 @@
     /* Mobile menu hamburger */
     .hamburger {
       display: none;
-      background: none;
-      border: 1px solid hsl(var(--border));
-      border-radius: 8px;
-      width: 42px;
-      height: 42px;
+      background: transparent;
+      border: 1.5px solid hsl(var(--border));
+      border-radius: 10px;
+      width: 44px;
+      height: 44px;
       cursor: pointer;
       color: hsl(var(--foreground));
       align-items: center;
       justify-content: center;
+      transition: all 0.2s ease;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .hamburger:hover {
+      background-color: hsl(var(--muted));
+      border-color: hsl(var(--primary));
+    }
+
+    .hamburger .icon-close {
+      display: none;
+    }
+
+    .hamburger.open {
+      background-color: hsl(var(--muted));
+      border-color: hsl(var(--primary));
+    }
+
+    .hamburger.open .icon-hamburger {
+      display: none;
+    }
+
+    .hamburger.open .icon-close {
+      display: block;
     }
 
     .mobile-menu {
       display: none;
-      background-color: white;
+      background-color: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid hsl(var(--border));
-      padding: 20px 24px;
-      box-shadow: var(--shadow-md);
+      padding: 16px 24px 24px;
+      box-shadow: 0 16px 36px rgba(27, 38, 84, 0.12);
+      max-height: calc(100vh - 74px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      animation: mobileMenuSlide 0.22s ease-out forwards;
+    }
+
+    @keyframes mobileMenuSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .mobile-menu.open {
@@ -335,12 +386,57 @@
     }
 
     .mobile-menu a {
-      display: block;
-      padding: 12px 0;
-      font-size: 15px;
-      font-weight: 500;
-      border-bottom: 1px solid hsl(var(--border));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 0;
+      font-size: 15.5px;
+      font-weight: 600;
+      border-bottom: 1px solid hsl(var(--border) / 0.7);
       color: hsl(var(--foreground));
+      transition: color 0.15s ease, padding-left 0.15s ease;
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a:active {
+      color: hsl(var(--primary));
+      padding-left: 6px;
+    }
+
+    /* Back to Top Floating Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-full);
+      background-color: hsl(var(--primary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(27, 38, 84, 0.25);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 99;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background-color: hsl(var(--accent));
+      color: hsl(var(--foreground));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(254, 203, 62, 0.45);
     }
 
     /* Hero Section */
@@ -431,12 +527,14 @@
     .hero-headline {
       font-family: 'Sora', sans-serif;
       font-weight: 800;
-      font-size: clamp(38px, 6.2vw, 72px);
-      line-height: 1.08;
+      font-size: clamp(28px, 5.8vw, 70px);
+      line-height: 1.1;
       letter-spacing: -0.03em;
       color: hsl(var(--foreground));
       max-width: 980px;
       margin-bottom: 24px;
+      overflow-wrap: break-word;
+      word-break: normal;
     }
 
     .hero-headline .highlight {
@@ -788,8 +886,8 @@
     /* How It Works Steps (Section 4 Style) */
     .steps-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
       text-align: left;
     }
 
@@ -1755,8 +1853,30 @@
       color: rgba(255, 255, 255, 0.45);
     }
 
-    /* Responsive Styles */
+    /* ==========================================================================
+       RESPONSIVE DESIGN SYSTEM (Desktop, Tablet, Phablet & Mobile Screens)
+       ========================================================================== */
+
+    /* Large Desktops and Wide Displays (1200px and below) */
+    @media (max-width: 1200px) {
+      .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .footer-grid {
+        grid-template-columns: 1.8fr 1fr 1fr 1.2fr;
+        gap: 36px;
+      }
+    }
+
+    /* Tablets / Medium Viewports (1080px and below) */
     @media (max-width: 1080px) {
+      .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      /* Hero Meta Quick Info Bar: 2 columns */
       .meta-bar {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -1775,63 +1895,410 @@
         border-top: 1px solid hsl(var(--border));
         border-right: none;
       }
-      .areas-grid, .committee-grid, .steps-grid, .venue-grid, .partner-cards-grid {
+
+      .areas-grid, 
+      .committee-grid, 
+      .venue-grid, 
+      .partner-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .steps-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .lead-sponsor-grid {
         grid-template-columns: 280px 1fr;
         gap: 28px;
       }
+
       .plans-grid {
         grid-template-columns: 1fr;
+        max-width: 580px;
+        margin-left: auto;
+        margin-right: auto;
       }
+
       .footer-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
       }
+
       .date-row {
-        grid-template-columns: 180px 1fr 1.5fr;
+        grid-template-columns: 200px 1.2fr 1.8fr;
+        gap: 16px;
       }
       .date-row .arrow-icon {
         display: none;
       }
     }
 
-    @media (max-width: 768px) {
-      .nav-links, .nav-actions .btn-secondary {
+    /* Medium-Small Tablets (900px and below) */
+    @media (max-width: 900px) {
+      .nav-links {
         display: none;
       }
       .hamburger {
-        display: flex;
+        display: inline-flex;
       }
-      .stats-grid, .objectives-grid, .areas-grid, .committee-grid, .steps-grid, .criteria-grid, .venue-grid, .partner-cards-grid {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .objectives-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
       .lead-sponsor-grid {
         grid-template-columns: 1fr;
         gap: 24px;
+      }
+      .sponsor-logo-box {
+        max-width: 380px;
+        margin: 0 auto;
+      }
+    }
+
+    /* Standard Tablets & Large Phones (768px and below) */
+    @media (max-width: 768px) {
+      section {
+        padding: 60px 0;
+      }
+      .section-header {
+        margin-bottom: 36px;
+      }
+      .section-title {
+        font-size: clamp(24px, 5.8vw, 36px);
+      }
+      .section-subtitle {
+        font-size: 15px;
+      }
+
+      /* Announcement Bar */
+      .announcement-bar {
+        font-size: 11.5px;
+        padding: 7px 12px;
+        line-height: 1.45;
+        flex-wrap: wrap;
         text-align: center;
+      }
+
+      /* Top Navbar */
+      .nav-inner {
+        height: 66px;
+      }
+      .brand-title {
+        font-size: 20px;
+      }
+      .brand-logo svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        min-height: auto;
+        padding-top: 36px;
+        padding-bottom: 50px;
+      }
+      .hero-bg-text {
+        display: none;
+      }
+      .pre-heading {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+      }
+      .hero-headline {
+        font-size: clamp(26px, 7vw, 40px);
+        margin-bottom: 18px;
+        line-height: 1.15;
+      }
+      .hero-subtext {
+        font-size: 15px;
+        line-height: 1.55;
+        margin-bottom: 28px;
+      }
+      .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+        max-width: 360px;
+        gap: 12px;
+        margin-bottom: 30px;
+      }
+      .hero-ctas a {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding: 13px 24px;
+      }
+      .hero-social-proof {
+        padding-top: 20px;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+      }
+      .hero-social-proof > span:not(.proof-item) {
+        display: none;
+      }
+
+      /* Single column adaptive layouts */
+      .stats-grid,
+      .objectives-grid,
+      .areas-grid,
+      .committee-grid,
+      .steps-grid,
+      .criteria-grid,
+      .venue-grid,
+      .partner-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      /* Step process cards */
+      .step-item {
+        background: white;
+        border: 1px solid hsl(var(--border));
+        border-radius: var(--radius-md);
+        padding: 22px 20px;
+        box-shadow: var(--shadow-sm);
+      }
+      .step-number {
+        font-size: 44px;
+        margin-bottom: 8px;
+      }
+      .step-title {
+        font-size: 18px;
+      }
+
+      /* Sponsors & Partners */
+      .sponsors-lead-card {
+        padding: 24px 18px;
+        border-radius: var(--radius-md);
+      }
+      .lead-sponsor-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        text-align: left;
+      }
+      .sponsor-logo-box {
+        padding: 24px 16px;
+        width: 100%;
+        max-width: 100%;
+      }
+      .sponsor-title {
+        font-size: 22px;
       }
       .sponsor-perks-grid {
         grid-template-columns: 1fr;
-        text-align: left;
+        gap: 8px;
+      }
+      .sponsor-cta-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+      .sponsor-cta-buttons a {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Important Dates Timeline */
+      .dates-container {
+        padding: 8px 18px;
+        border-radius: var(--radius-md);
       }
       .date-row {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 6px;
+        padding: 18px 0;
       }
+      .date-badge {
+        font-size: 16px;
+      }
+      .date-title {
+        font-size: 18px;
+      }
+      .date-desc {
+        font-size: 13.5px;
+      }
+
+      /* Program Formats */
       .format-item {
         flex-direction: column;
         align-items: flex-start;
+        gap: 14px;
+        padding: 22px 0;
       }
       .format-right {
         align-items: flex-start;
         text-align: left;
       }
+      .format-title {
+        font-size: 20px;
+      }
+
+      /* Plans & Pre-registration Form */
+      .plan-card {
+        padding: 28px 20px;
+      }
+      .plan-title {
+        font-size: 22px;
+      }
+      .plan-price {
+        font-size: 34px;
+      }
+      .reg-form-card {
+        padding: 24px 18px;
+        margin-top: 28px;
+        border-radius: var(--radius-md);
+      }
+      .form-input {
+        font-size: 16px; /* Crucial for preventing iOS Safari input zoom */
+        padding: 13px 15px;
+      }
+
+      /* Accordion FAQ */
+      .accordion-trigger {
+        padding: 18px 18px;
+      }
+      .accordion-question {
+        font-size: 15.5px;
+      }
+      .accordion-content {
+        padding: 0 18px;
+      }
+      .accordion-item.active .accordion-content {
+        padding-bottom: 18px;
+      }
+
+      /* Footer */
+      .site-footer {
+        padding-top: 56px;
+        padding-bottom: 32px;
+      }
       .footer-grid {
         grid-template-columns: 1fr;
+        gap: 32px;
+        padding-bottom: 40px;
       }
-      .hero-bg-text {
+      .footer-desc {
+        max-width: 100%;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        font-size: 12px;
+      }
+    }
+
+    /* Small Screen Mobile Phones (560px and below) */
+    @media (max-width: 560px) {
+      .container {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      /* Hide duplicate register button in top bar to keep header clean and prevent overlap */
+      .nav-actions .btn-primary {
         display: none;
+      }
+
+      .nav-inner {
+        height: 60px;
+      }
+
+      .brand-title {
+        font-size: 18px;
+      }
+      .brand-badge {
+        font-size: 10px;
+        padding: 1px 6px;
+      }
+
+      /* Quick Info Spec sheet style for mobile */
+      .meta-bar {
+        grid-template-columns: 1fr;
+        border-radius: var(--radius-md);
+        margin-top: 36px;
+      }
+      .meta-cell {
+        padding: 14px 16px;
+        border-right: none;
+        border-bottom: 1px solid hsl(var(--border));
+      }
+      .meta-cell:nth-child(2),
+      .meta-cell:nth-child(3),
+      .meta-cell:nth-child(4),
+      .meta-cell:nth-child(5) {
+        border-top: none;
+        border-right: none;
+      }
+      .meta-cell:last-child {
+        border-bottom: none;
+      }
+      .meta-val {
+        font-size: 15px;
+      }
+
+      /* Stat cards */
+      .stat-card {
+        padding: 18px 16px;
+      }
+      .stat-number {
+        font-size: 34px;
+      }
+
+      /* Ticker marquee text */
+      .ticker-item {
+        font-size: 13.5px;
+        padding-right: 20px;
+      }
+
+      /* Floating Back to Top Button */
+      .back-to-top {
+        bottom: 18px;
+        right: 18px;
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    /* Extra Small Mobile Devices (360px and below) */
+    @media (max-width: 360px) {
+      .brand-title {
+        font-size: 16px;
+      }
+      .hero-headline {
+        font-size: 24px;
+      }
+      .section-title {
+        font-size: 22px;
+      }
+      .plan-card, .sponsors-lead-card, .reg-form-card {
+        padding: 18px 14px;
+      }
+      .btn-primary, .btn-secondary, .btn-accent {
+        padding: 11px 18px;
+        font-size: 13.5px;
+      }
+    }
+
+    /* Touch screen optimizations */
+    @media (hover: none) {
+      .stat-card:hover,
+      .area-card:hover,
+      .objective-card:hover,
+      .committee-card:hover,
+      .plan-card:hover,
+      .partner-card:hover,
+      .sponsors-lead-card:hover {
+        transform: none;
       }
     }
   </style>
@@ -1876,11 +2343,15 @@
       <!-- Nav CTA and Hamburger -->
       <div class="nav-actions">
         <a href="#pricing" class="btn-primary">Register Now</a>
-        <button class="hamburger" id="menuToggle" aria-label="Toggle Navigation Menu">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button class="hamburger" id="menuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <svg class="icon-hamburger" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
       </div>
@@ -2172,7 +2643,7 @@
         </div>
 
         <!-- 5-Step Process Grid (Section 4 "How It Works" Style) -->
-        <div class="steps-grid" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="steps-grid">
           <div class="step-item">
             <div class="step-number">01</div>
             <div class="step-icon">📝</div>
@@ -2898,7 +3369,7 @@
               </div>
 
               <!-- Buttons -->
-              <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+              <div class="sponsor-cta-buttons" style="display: flex; gap: 14px; flex-wrap: wrap;">
                 <a href="https://www.jkbank.com/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size: 13.5px; padding: 10px 20px;">
                   Visit J&amp;K Bank Official Site
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3211,31 +3682,83 @@
     </section>
   </main>
 
+  <!-- Floating Back to Top Button -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to Top" title="Back to Top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <!-- JAVASCRIPT LOGIC & INTERACTIONS -->
   <script>
-    // 1. Sticky Navbar scroll shadow
+    // 1. Sticky Navbar scroll shadow & Back to Top visibility
     const navbar = document.getElementById('navbar');
+    const backToTop = document.getElementById('backToTop');
+
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
+      const scrollY = window.scrollY || window.pageYOffset;
+      if (scrollY > 40) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
       }
+
+      if (scrollY > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
     });
 
-    // 2. Mobile Menu Toggle
+    if (backToTop) {
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // 2. Mobile Menu Toggle with Accessibility & Outside Click Handling
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open');
-    });
 
-    // Close mobile menu on clicking any link
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
+    if (menuToggle && mobileMenu) {
+      const toggleMenu = () => {
+        const isOpen = mobileMenu.classList.toggle('open');
+        menuToggle.classList.toggle('open', isOpen);
+        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      };
+
+      const closeMenu = () => {
         mobileMenu.classList.remove('open');
+        menuToggle.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      };
+
+      menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
       });
-    });
+
+      // Close mobile menu on clicking any link
+      document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+          closeMenu();
+        });
+      });
+
+      // Close on clicking outside navbar
+      document.addEventListener('click', (e) => {
+        if (mobileMenu.classList.contains('open') && !navbar.contains(e.target)) {
+          closeMenu();
+        }
+      });
+
+      // Close on Escape key press
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+    }
 
     // 3. FAQ Accordion Toggle
     const accordionTriggers = document.querySelectorAll('.accordion-trigger');
@@ -3247,7 +3770,8 @@
         // Close other items
         document.querySelectorAll('.accordion-item').forEach(otherItem => {
           otherItem.classList.remove('active');
-          otherItem.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
+          const otherTrigger = otherItem.querySelector('.accordion-trigger');
+          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
         });
 
         // Toggle current item
